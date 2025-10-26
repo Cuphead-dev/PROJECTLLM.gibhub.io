@@ -1,23 +1,1232 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>PROJECT LLM</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: linear-gradient(to bottom right, #222, #444);
-      color: #fff;
-      text-align: center;
-      margin-top: 100px;
-    }
-    h1 {
-      color: #00e676;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovable Place - แบ่งปันสถานที่สวยงาม</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pastel-pink: #FFEBF0;
+            --pastel-peach: #FFF4E6;
+            --pastel-blue: #E6F7FF;
+            --pastel-lavender: #F0E6FF;
+            --pastel-mint: #E6FFF0;
+            --accent-coral: #FF9999;
+            --accent-sky: #99CCFF;
+            --text-dark: #4A4A4A;
+            --text-light: #7A7A7A;
+            --white: #FFFFFF;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-peach) 0%, var(--pastel-pink) 50%, var(--pastel-blue) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-coral), #FFAA99);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: var(--pastel-blue);
+            color: var(--text-dark);
+        }
+
+        .btn-icon {
+            background: var(--white);
+            border: 2px solid var(--pastel-pink);
+            padding: 0.6rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--pastel-lavender);
+            background: var(--white);
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--pastel-lavender);
+            transform: scale(1.05);
+        }
+
+        .mini-map {
+            background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-blue));
+            height: 150px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Feed Grid */
+        .feed-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .feed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 1.25rem;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .post-distance {
+            font-size: 0.85rem;
+            color: var(--accent-coral);
+            font-weight: 600;
+        }
+
+        .post-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--pastel-pink);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .action-btn:hover {
+            color: var(--accent-coral);
+            transform: scale(1.1);
+        }
+
+        .action-btn.active {
+            color: var(--accent-coral);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--pastel-pink);
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent-coral);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--pastel-lavender);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--accent-coral);
+            background: var(--pastel-pink);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid var(--pastel-pink);
+            border-top: 3px solid var(--accent-coral);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Auth Pages */
+        .auth-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--accent-coral), var(--accent-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Profile */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--pastel-pink);
+        }
+
+        .profile-pic-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--accent-coral);
+            color: var(--white);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--pastel-peach);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--pastel-pink);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--accent-coral);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Page Views */
+        .page-view {
+            display: none;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-coral), #FFAA99);
+            color: var(--white);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+
+            .btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.85rem;
+            }
+
+            .filter-section {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: var(--pastel-mint);
+            color: #2d8659;
+        }
+
+        .alert-danger {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            padding: 1rem;
+            background: var(--pastel-blue);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .history-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-  <h1> ยินดีต้อนรับสู่ PROJECT LLM!</h1>
-  <p>เว็บไซต์นี้ถูกสร้างขึ้นด้วย GitHub Pages ฟรี 100%</p>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-heart"></i> Lovable Place
+            </div>
+            <nav class="nav-buttons">
+                <button class="btn btn-secondary" onclick="showPage('home')" aria-label="หน้าแรก">
+                    <i class="fas fa-home"></i> หน้าแรก
+                </button>
+                <button class="btn btn-secondary" onclick="showPage('profile')" aria-label="โปรไฟล์">
+                    <i class="fas fa-user"></i> โปรไฟล์
+                </button>
+                <button class="btn btn-icon" onclick="toggleModal('loginModal')" aria-label="เข้าสู่ระบบ">
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="homePage" class="page-view active">
+            <!-- Filter Section -->
+            <section class="filter-section">
+                <h2 class="filter-title">
+                    <i class="fas fa-map-marked-alt"></i> ค้นหาสถานที่ท่องเที่ยว
+                </h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-globe"></i> ทั้งหมด
+                    </button>
+                    <button class="filter-btn" data-filter="cafe">
+                        <i class="fas fa-coffee"></i> คาเฟ่
+                    </button>
+                    <button class="filter-btn" data-filter="beach">
+                        <i class="fas fa-umbrella-beach"></i> ชายหาด
+                    </button>
+                    <button class="filter-btn" data-filter="mountain">
+                        <i class="fas fa-mountain"></i> ภูเขา
+                    </button>
+                </div>
+                <div class="mini-map">
+                    <i class="fas fa-map"></i> แผนที่แสดงสถานที่ใกล้เคียง
+                </div>
+            </section>
+
+            <!-- Feed Grid -->
+            <section class="feed-grid" id="feedGrid">
+                <!-- Posts will be inserted here by JavaScript -->
+            </section>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="page-view">
+            <div class="auth-container">
+                <div class="profile-header">
+                    <div class="profile-pic-container">
+                        <img id="profilePic" src="https://picsum.photos/200/200?random=profile" alt="Profile Picture" class="profile-pic">
+                        <label class="profile-pic-upload" for="profilePicInput">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+                    </div>
+                    <h2 id="profileName">สมชาย ใจดี</h2>
+                    <p style="color: var(--text-light);">อายุ 25 ปี</p>
+                </div>
+
+                <div class="form-group">
+                    <h3 style="margin-bottom: 1rem;">
+                        <i class="fas fa-cog"></i> การตั้งค่า
+                    </h3>
+                    
+                    <div class="settings-item">
+                        <span><i class="fas fa-shield-alt"></i> ความปลอดภัย</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-item">
+                        <span><i class="fas fa-filter"></i> ตรวจสอบเนื้อหาอัตโนมัติ</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-item" style="flex-direction: column; align-items: start;">
+                        <label class="form-label"><i class="fas fa-user-circle"></i> ชื่อผู้ใช้</label>
+                        <input type="text" class="form-input" value="somchai_jaidee" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3 style="margin-bottom: 1rem;">
+                        <i class="fas fa-heart"></i> โพสต์ที่ถูกใจ
+                    </h3>
+                    <ul class="history-list" id="likedPostsList">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Post Modal -->
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-plus-circle"></i> สร้างโพสต์ใหม่
+                </h2>
+                <button class="close-btn" onclick="toggleModal('createPostModal')" aria-label="ปิด">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="createPostForm">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-image"></i> แนบรูปภาพ/สื่อ
+                    </label>
+                    <div class="file-upload" onclick="document.getElementById('postImageInput').click()">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--accent-coral);"></i>
+                        <p>คลิกเพื่ออัปโหลดรูปภาพ</p>
+                        <input type="file" id="postImageInput" accept="image/*">
+                    </div>
+                    <img id="postImagePreview" class="preview-image" style="display: none;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="postCaption">
+                        <i class="fas fa-align-left"></i> คำอธิบาย
+                    </label>
+                    <textarea id="postCaption" class="form-textarea" placeholder="บอกเล่าประสบการณ์ของคุณ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-map-marker-alt"></i> สถานที่
+                    </label>
+                    <input type="text" id="postVenue" class="form-input" placeholder="ชื่อสถานที่">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">จังหวัด / อำเภอ / ตำบล</label>
+                    <select id="postProvince" class="form-select">
+                        <option>กรุงเทพมหานคร</option>
+                        <option>เชียงใหม่</option>
+                        <option>ภูเก็ต</option>
+                        <option>กระบี่</option>
+                        <option>เพชรบุรี</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="postCategory" class="form-select">
+                        <option value="cafe">คาเฟ่</option>
+                        <option value="beach">ชายหาด</option>
+                        <option value="mountain">ภูเขา</option>
+                        <option value="other">อื่นๆ</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> โพสต์
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- AI Check Modal -->
+    <div id="aiCheckModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h2 class="modal-title">
+                <i class="fas fa-robot"></i> กำลังตรวจสอบเนื้อหา...
+            </h2>
+            <div id="aiCheckContent">
+                <div class="loading-spinner"></div>
+                <p style="margin-top: 1rem; color: var(--text-light);">
+                    AI กำลังตรวจสอบความเหมาะสมของโพสต์
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                </h2>
+                <button class="close-btn" onclick="toggleModal('loginModal')" aria-label="ปิด">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">ชื่อ</label>
+                    <input type="text" class="form-input" placeholder="ชื่อ" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">นามสกุล</label>
+                    <input type="text" class="form-input" placeholder="นามสกุล" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">อายุ</label>
+                    <input type="number" class="form-input" placeholder="อายุ" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ที่อยู่</label>
+                    <textarea class="form-textarea" placeholder="ที่อยู่" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-check"></i> เข้าสู่ระบบ
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="toggleModal('createPostModal')" aria-label="สร้างโพสต์">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script>
+        // Fake data for posts
+        const posts = [
+            {
+                id: 1,
+                image: 'https://picsum.photos/600/400?random=1',
+                title: 'The Bloom Café',
+                distance: '2.3 km',
+                description: 'คาเฟ่สไตล์มินิมอลสวยงาม บรรยากาศดีมาก เหมาะกับการมานั่งทำงาน',
+                category: 'cafe',
+                province: 'กรุงเทพมหานคร',
+                likes: 124,
+                comments: 23
+            },
+            {
+                id: 2,
+                image: 'https://picsum.photos/600/400?random=2',
+                title: 'หาดไร่เลย์',
+                distance: '156 km',
+                description: 'ทะเลสวยมาก น้ำใส หาดทรายขาว บรรยากาศสงบ',
+                category: 'beach',
+                province: 'กระบี่',
+                likes: 342,
+                comments: 56
+            },
+            {
+                id: 3,
+                image: 'https://picsum.photos/600/400?random=3',
+                title: 'ดอยอินทนนท์',
+                distance: '458 km',
+                description: 'จุดชมวิวสูงสุดในประเทศไทย อากาศเย็นสบาย',
+                category: 'mountain',
+                province: 'เชียงใหม่',
+                likes: 287,
+                comments: 41
+            },
+            {
+                id: 4,
+                image: 'https://picsum.photos/600/400?random=4',
+                title: 'Cloud Nine Rooftop',
+                distance: '5.1 km',
+                description: 'คาเฟ่บนดาดฟ้า วิวสวยมาก เหมาะสำหรับถ่ายรูป',
+                category: 'cafe',
+                province: 'กรุงเทพมหานคร',
+                likes: 198,
+                comments: 34
+            },
+            {
+                id: 5,
+                image: 'https://picsum.photos/600/400?random=5',
+                title: 'หาดกมลา',
+                distance: '823 km',
+                description: 'หาดสวยเงียบสงบ เหมาะสำหรับพักผ่อน',
+                category: 'beach',
+                province: 'ภูเก็ต',
+                likes: 412,
+                comments: 67
+            },
+            {
+                id: 6,
+                image: 'https://picsum.photos/600/400?random=6',
+                title: 'ภูชีฟ้า',
+                distance: '234 km',
+                 description: 'ภูเขาสวยงาม มีทะเลหมอกในตอนเช้า บรรยากาศดีมาก',
+                category: 'mountain',
+                province: 'เชียงราย',
+                likes: 523,
+                comments: 89
+               }
+              ];
+              // State management
+    let currentFilter = 'all';
+    let likedPosts = new Set();
+    let savedPosts = new Set();
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+        renderPosts();
+        setupEventListeners();
+        updateLikedPostsList();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderPosts();
+            });
+        });
+
+        // Post image preview
+        document.getElementById('postImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('postImagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Create post form
+        document.getElementById('createPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleCreatePost();
+        });
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        // Profile picture upload
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePic').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Render posts
+    function renderPosts() {
+        const feedGrid = document.getElementById('feedGrid');
+        feedGrid.innerHTML = '';
+
+        const filteredPosts = currentFilter === 'all' 
+            ? posts 
+            : posts.filter(post => post.category === currentFilter);
+
+        filteredPosts.forEach(post => {
+            const postCard = createPostCard(post);
+            feedGrid.appendChild(postCard);
+        });
+    }
+
+    // Create post card element
+    function createPostCard(post) {
+        const article = document.createElement('article');
+        article.className = 'post-card';
+        article.setAttribute('data-post-id', post.id);
+
+        const isLiked = likedPosts.has(post.id);
+        const isSaved = savedPosts.has(post.id);
+
+        article.innerHTML = `
+            <img src="${post.image}" alt="${post.title}" class="post-image">
+            <div class="post-content">
+                <div class="post-header">
+                    <h3 class="post-title">${post.title}</h3>
+                    <span class="post-distance">
+                        <i class="fas fa-location-arrow"></i> ${post.distance}
+                    </span>
+                </div>
+                <p class="post-description">${post.description}</p>
+                <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                    <i class="fas fa-map-pin"></i> ${post.province}
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn ${isLiked ? 'active' : ''}" onclick="toggleLike(${post.id})" aria-label="ถูกใจ">
+                        <i class="fas fa-heart"></i>
+                        <span>${post.likes}</span>
+                    </button>
+                    <button class="action-btn" onclick="handleComment(${post.id})" aria-label="แสดงความคิดเห็น">
+                        <i class="fas fa-comment"></i>
+                        <span>${post.comments}</span>
+                    </button>
+                    <button class="action-btn" onclick="handleShare(${post.id})" aria-label="แชร์">
+                        <i class="fas fa-share"></i>
+                    </button>
+                    <button class="action-btn ${isSaved ? 'active' : ''}" onclick="toggleSave(${post.id})" aria-label="บันทึก">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                    <button class="action-btn" onclick="showOnMap(${post.id})" aria-label="ดูบนแผนที่">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        return article;
+    }
+
+    // Toggle like
+    function toggleLike(postId) {
+        const post = posts.find(p => p.id === postId);
+        if (!post) return;
+
+        if (likedPosts.has(postId)) {
+            likedPosts.delete(postId);
+            post.likes--;
+        } else {
+            likedPosts.add(postId);
+            post.likes++;
+        }
+
+        renderPosts();
+        updateLikedPostsList();
+    }
+
+    // Toggle save
+    function toggleSave(postId) {
+        if (savedPosts.has(postId)) {
+            savedPosts.delete(postId);
+        } else {
+            savedPosts.add(postId);
+        }
+        renderPosts();
+    }
+
+    // Handle comment
+    function handleComment(postId) {
+        alert('ฟีเจอร์แสดงความคิดเห็นจะพัฒนาในเร็วๆ นี้');
+    }
+
+    // Handle share
+    function handleShare(postId) {
+        const post = posts.find(p => p.id === postId);
+        if (post) {
+            alert(`แชร์: ${post.title}\n${post.description}`);
+        }
+    }
+
+    // Show on map
+    function showOnMap(postId) {
+        const post = posts.find(p => p.id === postId);
+        if (post) {
+            alert(`แสดงตำแหน่ง "${post.title}" บนแผนที่\nจังหวัด: ${post.province}\nระยะทาง: ${post.distance}`);
+        }
+    }
+
+    // Handle create post
+    async function handleCreatePost() {
+        const imageInput = document.getElementById('postImageInput');
+        const caption = document.getElementById('postCaption').value;
+        const venue = document.getElementById('postVenue').value;
+        const province = document.getElementById('postProvince').value;
+        const category = document.getElementById('postCategory').value;
+
+        if (!imageInput.files[0] || !caption || !venue) {
+            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return;
+        }
+
+        // Close create modal, show AI check modal
+        toggleModal('createPostModal');
+        toggleModal('aiCheckModal');
+
+        // Simulate AI check (2 seconds)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Random AI result (90% approval rate)
+        const isApproved = Math.random() > 0.1;
+
+        const aiCheckContent = document.getElementById('aiCheckContent');
+
+        if (isApproved) {
+            aiCheckContent.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3>โพสต์ผ่านการตรวจสอบ</h3>
+                    <p>เนื้อหาของคุณเหมาะสมและปลอดภัย</p>
+                </div>
+                <button class="btn btn-primary" onclick="confirmPost('${venue}', '${caption}', '${province}', '${category}')">
+                    ยืนยันการโพสต์
+                </button>
+            `;
+        } else {
+            // Random rejection reason
+            const reasons = [
+                'พบเนื้อหาที่ไม่เหมาะสม',
+                'ตรวจพบสแปม',
+                'รูปภาพไม่ชัดเจน',
+                'เนื้อหาละเมิดลิขสิทธิ์'
+            ];
+            const reason = reasons[Math.floor(Math.random() * reasons.length)];
+
+            aiCheckContent.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-times-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3>โพสต์ไม่ผ่านการตรวจสอบ</h3>
+                    <p>เหตุผล: ${reason}</p>
+                </div>
+                <button class="btn btn-secondary" onclick="toggleModal('aiCheckModal')">
+                    ปิด
+                </button>
+            `;
+        }
+    }
+
+    // Confirm post
+    function confirmPost(venue, caption, province, category) {
+        const newPost = {
+            id: posts.length + 1,
+            image: document.getElementById('postImagePreview').src,
+            title: venue,
+            distance: '0.5 km',
+            description: caption,
+            category: category,
+            province: province,
+            likes: 0,
+            comments: 0
+        };
+
+        posts.unshift(newPost);
+        renderPosts();
+
+        // Close modal and reset form
+        toggleModal('aiCheckModal');
+        document.getElementById('createPostForm').reset();
+        document.getElementById('postImagePreview').style.display = 'none';
+
+        alert('โพสต์สำเร็จ! 🎉');
+    }
+
+    // Handle login
+    function handleLogin() {
+        const form = document.getElementById('loginForm');
+        const formData = new FormData(form);
+        
+        alert('ยินดีต้อนรับ! เข้าสู่ระบบสำเร็จ');
+        toggleModal('loginModal');
+        showPage('profile');
+    }
+
+    // Toggle modal
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.toggle('active');
+    }
+
+    // Show page
+    function showPage(pageName) {
+        document.querySelectorAll('.page-view').forEach(page => {
+            page.classList.remove('active');
+        });
+
+        const targetPage = document.getElementById(pageName + 'Page');
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+    }
+
+    // Update liked posts list
+    function updateLikedPostsList() {
+        const likedPostsList = document.getElementById('likedPostsList');
+        likedPostsList.innerHTML = '';
+
+        if (likedPosts.size === 0) {
+            likedPostsList.innerHTML = '<li style="text-align: center; color: var(--text-light); padding: 2rem;">ยังไม่มีโพสต์ที่ถูกใจ</li>';
+            return;
+        }
+
+        likedPosts.forEach(postId => {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}">
+                    <div style="flex: 1;">
+                        <strong>${post.title}</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem;">
+                            ${post.province}
+                        </p>
+                    </div>
+                    <button class="action-btn active" onclick="toggleLike(${post.id})">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                `;
+                likedPostsList.appendChild(li);
+            }
+        });
+    }
+
+    // Close modal when clicking outside
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    });
+</script>
 </body>
 </html>
